@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "siicl"
+version = "0.1.0"
+description = "Cliente Python autosuficiente para emisión de DTE y Boletas Electrónicas en SII Chile"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Comunidad sii-chile-cert"},
+]
+keywords = ["sii", "chile", "dte", "factura-electronica", "boleta-electronica"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Accounting",
+    "Natural Language :: Spanish",
+]
+dependencies = [
+    "cryptography>=42.0",
+    "lxml>=5.0",
+    "requests>=2.31",
+    "pdf417>=0.8",
+    "Pillow>=10.0",
+    "Jinja2>=3.1",
+    "weasyprint>=60.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+siicl-emit-factura = "siicl.cli:emit_factura"
+siicl-emit-boleta = "siicl.cli:emit_boleta"
+siicl-upload = "siicl.cli:upload"
+siicl-generar-pdf = "siicl.cli:generar_pdf"
+siicl-validar-xsd = "siicl.cli:validar_xsd"
+
+[project.urls]
+Homepage = "https://github.com/dbenaventep/sii-chile-cert"
+Repository = "https://github.com/dbenaventep/sii-chile-cert"
+Documentation = "https://github.com/dbenaventep/sii-chile-cert/tree/main/docs"
+
+[tool.setuptools.packages.find]
+include = ["siicl*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]

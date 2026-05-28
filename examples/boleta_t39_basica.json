@@ -2,7 +2,7 @@
   "test": false,
   "verify": true,
   "Emisor": {
-    "RUTEmisor": "76123456-7",
+    "RUTEmisor": "76123456-0",
     "RznSoc": "EMPRESA EJEMPLO SPA",
     "GiroEmis": "SERVICIOS DE EJEMPLO",
     "Actecos": [123456],

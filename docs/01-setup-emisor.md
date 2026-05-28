@@ -50,7 +50,7 @@ Los siguientes campos del emisor van en cada documento (no cambian entre DTEs):
 
 ```python
 EMISOR = {
-    "RUTEmisor": "76123456-7",
+    "RUTEmisor": "76123456-0",
     "RznSoc": "EMPRESA EJEMPLO SPA",
     "GiroEmis": "GIRO EJEMPLO DECLARADO",
     "Actecos": [123456, 789012],        # códigos de actividad económica

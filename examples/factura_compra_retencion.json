@@ -3,7 +3,7 @@
   "test": false,
   "verify": true,
   "Emisor": {
-    "RUTEmisor": "76123456-7",
+    "RUTEmisor": "76123456-0",
     "RznSoc": "EMPRESA DEMO SPA",
     "GiroEmis": "SERVICIOS DEMO",
     "Actecos": [123456],
@@ -31,7 +31,7 @@
           "Encabezado": {
             "IdDoc": {"Folio": 1, "FchEmis": "2026-04-29"},
             "Receptor": {
-              "RUTRecep": "77234567-8",
+              "RUTRecep": "77234567-4",
               "RznSocRecep": "PROVEEDOR DEMO LTDA",
               "GiroRecep": "GIRO PROVEEDOR",
               "DirRecep": "Proveedor 789",

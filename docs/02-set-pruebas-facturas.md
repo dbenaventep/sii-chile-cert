@@ -25,7 +25,7 @@ Token obtenido de `https://maullin.sii.cl/DTEWS/CrSeed.jws?WSDL` + `GetTokenFrom
 <EnvioDTE xmlns="http://www.sii.cl/SiiDte" version="1.0">
   <SetDTE ID="SetBasicoCASA">
     <Caratula version="1.0">
-      <RutEmisor>76123456-7</RutEmisor>
+      <RutEmisor>76123456-0</RutEmisor>
       <RutEnvia>11111111-1</RutEnvia>
       <RutReceptor>60803000-K</RutReceptor>
       <FchResol>2026-04-28</FchResol>

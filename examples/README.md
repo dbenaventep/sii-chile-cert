@@ -8,8 +8,8 @@ Estos JSONs son ejemplos genéricos para alimentar funciones como `fe.timbrar_y_
 
 | Campo | Valor en ejemplos | Reemplazar por |
 |---|---|---|
-| `RUTEmisor` | `76123456-7` | RUT real de la empresa emisora |
-| `RUTRecep` (receptor real) | `77234567-8` | RUT real del cliente |
+| `RUTEmisor` | `76123456-0` | RUT real de la empresa emisora |
+| `RUTRecep` (receptor real) | `77234567-4` | RUT real del cliente |
 | `RUTRecep` (consumidor final boleta) | `66666666-6` | mantener (RUT genérico para boletas) |
 | `RUTReceptor` (Carátula al SII) | `60803000-K` | mantener (RUT del SII) |
 | `rut_firmante` (firma electrónica) | `11111111-1` | RUT real del firmante autorizado |
@@ -72,7 +72,7 @@ Estos JSONs son ejemplos genéricos para alimentar funciones como `fe.timbrar_y_
 
 ```json
 {
-  "RUTEmisor": "76123456-7",
+  "RUTEmisor": "76123456-0",
   "RznSoc": "EMPRESA EJEMPLO SPA",
   "GiroEmis": "SERVICIOS DE EJEMPLO",
   "Actecos": [123456],

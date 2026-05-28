@@ -3,7 +3,7 @@
   "test": false,
   "verify": true,
   "Emisor": {
-    "RUTEmisor": "76123456-7",
+    "RUTEmisor": "76123456-0",
     "RznSoc": "EMPRESA DEMO SPA",
     "GiroEmis": "SERVICIOS DEMO",
     "Actecos": [123456],
@@ -32,7 +32,7 @@
             "Folio": 100,
             "FchEmis": "2026-04-28",
             "RUTEmisor": "88888888-8",
-            "RUTRecep": "76123456-7",
+            "RUTRecep": "76123456-0",
             "MntTotal": 31294,
             "Recinto": "OFICINA",
             "RutFirma": "11111111-1",

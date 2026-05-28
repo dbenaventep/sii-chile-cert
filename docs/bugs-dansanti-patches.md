@@ -110,7 +110,7 @@ with open(xml_path, "w", encoding="ISO-8859-1") as f:
 
 # 3. Enviar con el helper SOAP estándar (ver scripts/send_dte_soap.py):
 from sii_upload import enviar
-res = enviar(xml_path, "76123456-7", "11111111-1", "cert.pfx", "pwd", "cert")
+res = enviar(xml_path, "76123456-0", "11111111-1", "cert.pfx", "pwd", "cert")
 ```
 
 **Parche upstream propuesto:**

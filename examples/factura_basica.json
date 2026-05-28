@@ -2,7 +2,7 @@
   "test": false,
   "verify": true,
   "Emisor": {
-    "RUTEmisor": "76123456-7",
+    "RUTEmisor": "76123456-0",
     "RznSoc": "EMPRESA EJEMPLO SPA",
     "GiroEmis": "SERVICIOS DE EJEMPLO",
     "Actecos": [123456],
@@ -35,7 +35,7 @@
               "FchEmis": "2026-04-29"
             },
             "Receptor": {
-              "RUTRecep": "77234567-8",
+              "RUTRecep": "77234567-4",
               "RznSocRecep": "CLIENTE EJEMPLO LTDA",
               "GiroRecep": "GIRO CLIENTE",
               "DirRecep": "Av. Cliente 456",

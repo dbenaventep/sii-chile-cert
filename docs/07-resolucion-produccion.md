@@ -37,7 +37,7 @@ Llega como adjunto PDF con el número de resolución y fecha. Guárdalo.
 
 ```python
 EMISOR_PROD = {
-    "RUTEmisor": "76123456-7",
+    "RUTEmisor": "76123456-0",
     "RznSoc": "EMPRESA EJEMPLO SPA",
     # ... resto igual ...
     "Modo": "produccion",           # ← cambio clave

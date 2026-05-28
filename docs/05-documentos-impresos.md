@@ -13,7 +13,7 @@ Los PDFs se suben al portal SII y se revisan manualmente (no automático). Puede
 ### Recuadro SII (esquina superior derecha)
 
 ```
-R.U.T.: 76123456-7
+R.U.T.: 76123456-0
 FACTURA ELECTRONICA
 N° 32
 ```

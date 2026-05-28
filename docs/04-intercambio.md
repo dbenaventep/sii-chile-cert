@@ -23,7 +23,7 @@ Wrapper `<RespuestaDTE>` con schema `RespuestaEnvioDTE_v10.xsd`. Indica al SII s
 <RespuestaDTE xmlns="http://www.sii.cl/SiiDte" version="1.0">
   <Resultado ID="Resp123">
     <Caratula version="1.0">
-      <RutResponde>76123456-7</RutResponde>      <!-- tu RUT -->
+      <RutResponde>76123456-0</RutResponde>      <!-- tu RUT -->
       <RutRecibe>EMISOR_ORIGINAL-K</RutRecibe>   <!-- del DTE -->
       <IdRespuesta>1</IdRespuesta>
       <NroDetalles>2</NroDetalles>
@@ -36,7 +36,7 @@ Wrapper `<RespuestaDTE>` con schema `RespuestaEnvioDTE_v10.xsd`. Indica al SII s
       <EnvioDTEID>...</EnvioDTEID>
       <Digest>...</Digest>
       <RutEmisor>EMISOR_RUT</RutEmisor>
-      <RutReceptor>76123456-7</RutReceptor>
+      <RutReceptor>76123456-0</RutReceptor>
       <EstadoRecepEnv>0</EstadoRecepEnv>
       <RecepEnvGlosa>Envio Recibido Conforme</RecepEnvGlosa>
       <NroDTE>2</NroDTE>
@@ -44,7 +44,7 @@ Wrapper `<RespuestaDTE>` con schema `RespuestaEnvioDTE_v10.xsd`. Indica al SII s
         <TpoDTE>33</TpoDTE>
         <NroDTE>FOLIO_DTE_A</NroDTE>
         <RutEmisor>EMISOR_RUT</RutEmisor>
-        <RutRecep>76123456-7</RutRecep>          <!-- tu RUT, dirigido a ti -->
+        <RutRecep>76123456-0</RutRecep>          <!-- tu RUT, dirigido a ti -->
         <MntTotal>31294</MntTotal>
         <EstadoRecepDTE>0</EstadoRecepDTE>
         <RecepDTEGlosa>DTE Recibido OK</RecepDTEGlosa>
@@ -72,7 +72,7 @@ Wrapper `<EnvioRecibos>` con schema `EnvioRecibos_v10.xsd`. Solo para el DTE que
 <EnvioRecibos xmlns="http://www.sii.cl/SiiDte" version="1.0">
   <SetRecibos ID="SetRecibos1">
     <Caratula version="1.0">
-      <RutResponde>76123456-7</RutResponde>
+      <RutResponde>76123456-0</RutResponde>
       <RutRecibe>EMISOR_RUT-K</RutRecibe>          <!-- ⚠️ el del emisor original -->
       <NroDetalles>1</NroDetalles>
       <TmstFirmaEnv>2026-05-27T12:34:56</TmstFirmaEnv>
@@ -83,7 +83,7 @@ Wrapper `<EnvioRecibos>` con schema `EnvioRecibos_v10.xsd`. Solo para el DTE que
         <Folio>FOLIO_DTE_A</Folio>
         <FchEmis>FECHA_DTE_A</FchEmis>
         <RUTEmisor>EMISOR_RUT-K</RUTEmisor>
-        <RUTRecep>76123456-7</RUTRecep>
+        <RUTRecep>76123456-0</RUTRecep>
         <MntTotal>31294</MntTotal>                  <!-- ⚠️ valor real, NO 0 -->
         <Recinto>OFICINA</Recinto>
         <RutFirma>11111111-1</RutFirma>            <!-- tu RUT firmante -->
@@ -109,7 +109,7 @@ Wrapper `<RespuestaDTE>` (otra vez) con bloque `<ResultadoDTE>` esta vez. Indica
 <RespuestaDTE xmlns="http://www.sii.cl/SiiDte" version="1.0">
   <Resultado ID="Resp2">
     <Caratula version="1.0">
-      <RutResponde>76123456-7</RutResponde>
+      <RutResponde>76123456-0</RutResponde>
       <RutRecibe>EMISOR_RUT-K</RutRecibe>
       <IdRespuesta>2</IdRespuesta>
       <NroDetalles>1</NroDetalles>
@@ -120,7 +120,7 @@ Wrapper `<RespuestaDTE>` (otra vez) con bloque `<ResultadoDTE>` esta vez. Indica
       <Folio>FOLIO_DTE_A</Folio>
       <FchEmis>FECHA_DTE_A</FchEmis>
       <RUTEmisor>EMISOR_RUT-K</RUTEmisor>
-      <RUTRecep>76123456-7</RUTRecep>
+      <RUTRecep>76123456-0</RUTRecep>
       <MntTotal>31294</MntTotal>
       <EstadoDTE>0</EstadoDTE>                 <!-- 0 = aceptado, 2 = reclamado -->
       <EstadoDTEGlosa>DTE Aceptado OK</EstadoDTEGlosa>
