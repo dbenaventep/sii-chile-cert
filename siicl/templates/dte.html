@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>{{ d.tipo_dte | tipo_palabras }} Nº {{ d.folio }}</title>
+  <link rel="stylesheet" href="dte.css" />
+</head>
+<body>
+<div class="content">
+
+  <!-- CABECERA: emisor a la izquierda, recuadro SII a la derecha -->
+  <div class="header">
+    <div class="info-emisor">
+      <div class="razon strong">{{ d.razon_social_emisor }}</div>
+      <div>{{ d.giro_emisor }}</div>
+      <div>{{ d.direccion_emisor }}</div>
+      <div>{{ d.comuna_emisor }} - {{ d.ciudad_emisor }}</div>
+    </div>
+    <div class="info-sii-wrap">
+      <div class="recuadro-sii">
+        <div class="rojo strong">R.U.T.: {{ d.rut_emisor }}</div>
+        <div class="rojo strong">{{ d.tipo_dte | tipo_palabras }}</div>
+        <div class="rojo strong">Nº {{ d.folio }}</div>
+      </div>
+      <div class="unidad-sii">S.I.I. - {{ d.unidad_sii }}</div>
+    </div>
+  </div>
+
+  <!-- RECEPTOR -->
+  <table class="receptor">
+    <tr>
+      <td class="campo">Señor(es):</td>
+      <td class="valor">{{ d.razon_social_receptor }}</td>
+      <td class="campo right">Fecha emisión:</td>
+      <td class="valor right">{{ d.fecha_emision }}</td>
+    </tr>
+    <tr>
+      <td class="campo">R.U.T.:</td>
+      <td class="valor">{{ d.rut_receptor }}</td>
+      <td class="campo right">Ciudad:</td>
+      <td class="valor right">{{ d.ciudad_receptor }}</td>
+    </tr>
+    {% if d.giro_receptor %}
+    <tr>
+      <td class="campo">Giro:</td>
+      <td class="valor">{{ d.giro_receptor }}</td>
+      <td class="campo right">Comuna:</td>
+      <td class="valor right">{{ d.comuna_receptor }}</td>
+    </tr>
+    {% endif %}
+    {% if d.direccion_receptor %}
+    <tr>
+      <td class="campo">Dirección:</td>
+      <td class="valor" colspan="3">{{ d.direccion_receptor }}</td>
+    </tr>
+    {% endif %}
+  </table>
+
+  <!-- REFERENCIAS -->
+  {% if d.referencias %}
+  <div class="seccion">
+    <div class="seccion-titulo">Referencias:</div>
+    <table class="refs">
+      <thead>
+        <tr><th>Línea</th><th>Tipo Doc.</th><th>Folio</th><th>Fecha</th><th>Razón</th></tr>
+      </thead>
+      <tbody>
+        {% for r in d.referencias %}
+        <tr>
+          <td>{{ r.linea }}</td>
+          <td>{{ r.tipo_doc or r.codigo }}</td>
+          <td>{{ r.folio }}</td>
+          <td>{{ r.fecha }}</td>
+          <td>{{ r.razon }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <!-- ITEMS -->
+  <div class="seccion">
+    <table class="items">
+      <thead>
+        <tr>
+          <th class="col-num">Nro.</th>
+          <th class="col-cod">Código</th>
+          <th class="col-desc">Descripción</th>
+          <th class="col-qty">Cantidad</th>
+          <th class="col-unidad">Unidad</th>
+          <th class="col-precio">Precio Unit.</th>
+          <th class="col-monto">Valor Item</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for it in d.items %}
+        <tr>
+          <td class="right">{{ it.linea }}</td>
+          <td class="right">{{ it.codigo }}</td>
+          <td>{{ it.nombre }}{% if it.exento %} (Exento){% endif %}</td>
+          <td class="right">{{ '%.0f'|format(it.cantidad) }}</td>
+          <td>{{ it.unidad }}</td>
+          <td class="right">{{ it.precio | clp }}</td>
+          <td class="right">{{ it.monto | clp }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER: PDF417 + totales -->
+<div class="footer">
+  <div class="barcode-block">
+    <img src="{{ d.barcode_data_uri }}" class="barcode" />
+    <div class="barcode-legend">
+      <div>Timbre Electrónico S.I.I.</div>
+      <div>Verifique documento en: {{ d.url_verificacion }}</div>
+    </div>
+  </div>
+  <div class="totals-block">
+    {% if d.monto_neto > 0 %}<div class="row"><span>Neto:</span><span>$ {{ d.monto_neto | clp }}</span></div>{% endif %}
+    {% if d.monto_exento > 0 %}<div class="row"><span>Exento:</span><span>$ {{ d.monto_exento | clp }}</span></div>{% endif %}
+    {% if d.monto_iva > 0 %}<div class="row"><span>19% I.V.A.:</span><span>$ {{ d.monto_iva | clp }}</span></div>{% endif %}
+    <div class="row total-final"><span>MONTO TOTAL:</span><span>$ {{ d.monto_total | clp }}</span></div>
+  </div>
+</div>
+
+{% if d.cedible %}
+<!-- ACUSE DE RECIBO (solo en cedible) -->
+<div class="acuse">
+  <div class="acuse-titulo">ACUSE DE RECIBO</div>
+  <table>
+    <tr><td class="campo">Nombre:</td><td class="linea"></td><td class="campo">R.U.T.:</td><td class="linea"></td></tr>
+    <tr><td class="campo">Firma:</td><td class="linea"></td><td class="campo">Fecha:</td><td class="linea"></td></tr>
+    <tr><td class="campo">Recinto:</td><td class="linea" colspan="3"></td></tr>
+  </table>
+  <div class="acuse-legal">
+    El acuse de recibo que se declara en este acto, de acuerdo a lo dispuesto en
+    la letra b) del Art. 4°, y la letra c) del Art. 5° de la Ley 19.983, acredita que
+    la entrega de mercaderías o servicio(s) prestado(s) ha(n) sido recibido(s).
+  </div>
+</div>
+<div class="cedible-label">{{ d.tipo_dte | leyenda_cedible }}</div>
+{% endif %}
+</body>
+</html>
