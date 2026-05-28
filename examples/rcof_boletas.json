@@ -1,0 +1,46 @@
+{
+  "_comentario": "RCOF/RVD para boletas T39. Enviar a maullin.sii.cl/cgi_dte/UPL/DTEUpload por SOAP (mismo endpoint que set boletas). NO setear api=True (default es False, va por SOAP que es lo correcto en cert).",
+  "Emisor": {
+    "RUTEmisor": "76123456-7",
+    "RznSoc": "EMPRESA EJEMPLO SPA",
+    "GiroEmis": "SERVICIOS DE EJEMPLO",
+    "Actecos": [123456],
+    "DirOrigen": "CALLE EJEMPLO 123",
+    "CmnaOrigen": "PROVIDENCIA",
+    "CiudadOrigen": "SANTIAGO",
+    "Modo": "certificacion",
+    "NroResol": 0,
+    "FchResol": "2026-04-28",
+    "ValorIva": 19
+  },
+  "firma_electronica": {
+    "init_signature": true,
+    "string_firma": "<BASE64_DEL_PFX>",
+    "string_password": "<PASSWORD_PFX>",
+    "rut_firmante": "11111111-1"
+  },
+  "ConsumoFolios": [
+    {
+      "FchInicio": "2026-04-29",
+      "FchFinal": "2026-04-29",
+      "Correlativo": 1,
+      "SecEnvio": 1,
+      "Documento": [
+        {
+          "TipoDTE": 39,
+          "documentos": [
+            {
+              "_nota": "Reusar aquí los mismos documentos del set de boletas. dansanti calcula totales automáticamente.",
+              "Encabezado": {"IdDoc": {"Folio": 1, "FchEmis": "2026-04-29", "IndServicio": 3},
+                             "Receptor": {"RUTRecep": "66666666-6", "RznSocRecep": "Sin RUT"}},
+              "Detalle": [
+                {"NroLinDet": 1, "NmbItem": "Cambio de aceite", "QtyItem": 1, "PrcItem": 19900,
+                 "Impuesto": [{"CodImp": 14, "price_include": true, "TasaImp": 19.0}]}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

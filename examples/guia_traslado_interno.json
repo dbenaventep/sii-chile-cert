@@ -1,0 +1,56 @@
+{
+  "_comentario": "T52 guia de despacho traslado interno entre bodegas. IndTraslado=5, receptor = emisor.",
+  "test": false,
+  "verify": true,
+  "Emisor": {
+    "RUTEmisor": "76123456-7",
+    "RznSoc": "EMPRESA DEMO SPA",
+    "GiroEmis": "SERVICIOS DEMO",
+    "Actecos": [123456],
+    "DirOrigen": "CALLE DEMO 123",
+    "CmnaOrigen": "PROVIDENCIA",
+    "CiudadOrigen": "SANTIAGO",
+    "Modo": "certificacion",
+    "NroResol": 0,
+    "FchResol": "2026-04-28",
+    "ValorIva": 19
+  },
+  "firma_electronica": {
+    "init_signature": true,
+    "string_firma": "<BASE64_DEL_PFX>",
+    "string_password": "<PASSWORD_PFX>",
+    "rut_firmante": "11111111-1"
+  },
+  "ID": "GuiaTrasladoInterno",
+  "Documento": [
+    {
+      "TipoDTE": 52,
+      "caf_file": ["<CAF_BASE64_DE_T52>"],
+      "documentos": [
+        {
+          "Encabezado": {
+            "IdDoc": {
+              "Folio": 1,
+              "FchEmis": "2026-04-29",
+              "IndTraslado": 5
+            },
+            "Receptor": {
+              "_comentario": "Receptor = mismo emisor (traslado entre bodegas propias)",
+              "RUTRecep": "76123456-7",
+              "RznSocRecep": "EMPRESA DEMO SPA",
+              "GiroRecep": "SERVICIOS DEMO",
+              "DirRecep": "BODEGA DESTINO 999",
+              "CmnaRecep": "PROVIDENCIA",
+              "CiudadRecep": "SANTIAGO"
+            }
+          },
+          "Detalle": [
+            {"NroLinDet": 1, "NmbItem": "ITEM 1", "QtyItem": 50},
+            {"NroLinDet": 2, "NmbItem": "ITEM 2", "QtyItem": 30},
+            {"NroLinDet": 3, "NmbItem": "ITEM 3", "QtyItem": 20}
+          ]
+        }
+      ]
+    }
+  ]
+}

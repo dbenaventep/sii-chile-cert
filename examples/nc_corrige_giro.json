@@ -1,0 +1,62 @@
+{
+  "_comentario": "T61 NC corrige giro (CodRef=2). 1 linea generica con CdgItem NO_PRODUCT y monto 0. Lleva 2 referencias: SET (linea 1) + factura original (linea 2). En RazonRef del CodRef=2 va literal 'Dice: X Y debe decir: Z'.",
+  "test": false,
+  "verify": true,
+  "Emisor": {
+    "RUTEmisor": "76123456-7",
+    "RznSoc": "EMPRESA DEMO SPA",
+    "GiroEmis": "SERVICIOS DEMO",
+    "Actecos": [123456],
+    "DirOrigen": "CALLE DEMO 123",
+    "CmnaOrigen": "PROVIDENCIA",
+    "CiudadOrigen": "SANTIAGO",
+    "Modo": "certificacion",
+    "NroResol": 0,
+    "FchResol": "2026-04-28",
+    "ValorIva": 19
+  },
+  "firma_electronica": {
+    "init_signature": true,
+    "string_firma": "<BASE64_DEL_PFX>",
+    "string_password": "<PASSWORD_PFX>",
+    "rut_firmante": "11111111-1"
+  },
+  "ID": "NCCorrigeGiro",
+  "Documento": [
+    {
+      "TipoDTE": 61,
+      "caf_file": ["<CAF_BASE64_DE_T61>"],
+      "documentos": [
+        {
+          "Encabezado": {
+            "IdDoc": {"Folio": 1, "FchEmis": "2026-04-29"},
+            "Receptor": {
+              "RUTRecep": "77234567-8",
+              "RznSocRecep": "CLIENTE DEMO LTDA",
+              "GiroRecep": "GIRO DEMO",
+              "DirRecep": "Cliente 456",
+              "CmnaRecep": "Providencia",
+              "CiudadRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {
+              "NroLinDet": 1,
+              "CdgItem": {"VlrCodigo": "NO_PRODUCT"},
+              "NmbItem": "IMP. CORRIGE TEXTO",
+              "QtyItem": 1,
+              "PrcItem": 0
+            }
+          ],
+          "Referencia": [
+            {"NroLinRef": 1, "TpoDocRef": "SET", "FolioRef": 1,
+             "FchRef": "2026-04-29", "RazonRef": "CASO XXXXXXX-5"},
+            {"NroLinRef": 2, "TpoDocRef": 33, "FolioRef": 32,
+             "FchRef": "2026-04-29", "CodRef": 2,
+             "RazonRef": "Dice: GIRO PRUEBAS y debe decir: NUEVO GIRO PRUEBAS"}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "_comentario": "Set de Pruebas Boletas T39 - los 5 casos típicos. Para certificación enviar a maullin.sii.cl/cgi_dte/UPL/DTEUpload (SOAP), NO a pangal REST.",
+  "test": false,
+  "verify": true,
+  "Emisor": {
+    "RUTEmisor": "76123456-7",
+    "RznSoc": "EMPRESA EJEMPLO SPA",
+    "GiroEmis": "SERVICIOS DE EJEMPLO",
+    "Actecos": [123456],
+    "DirOrigen": "CALLE EJEMPLO 123",
+    "Telefono": "+56912345678",
+    "CmnaOrigen": "PROVIDENCIA",
+    "CiudadOrigen": "SANTIAGO",
+    "CorreoEmisor": "facturacion@empresa.cl",
+    "Modo": "certificacion",
+    "NroResol": 0,
+    "FchResol": "2026-04-28",
+    "ValorIva": 19
+  },
+  "firma_electronica": {
+    "init_signature": true,
+    "string_firma": "<BASE64_DEL_PFX>",
+    "string_password": "<PASSWORD_PFX>",
+    "rut_firmante": "11111111-1"
+  },
+  "ID": "SetBoletas",
+  "Documento": [
+    {
+      "TipoDTE": 39,
+      "caf_file": ["<CAF_BASE64_DE_T39>"],
+      "documentos": [
+        {
+          "_comentario": "CASO-1: 2 servicios afectos. Total esperado 29800",
+          "Encabezado": {
+            "IdDoc": {"Folio": 1, "FchEmis": "2026-04-29", "IndServicio": 3},
+            "Receptor": {
+              "RUTRecep": "66666666-6",
+              "RznSocRecep": "Sin RUT",
+              "DirRecep": "Santiago",
+              "CmnaRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {"NroLinDet": 1, "NmbItem": "Cambio de aceite",
+             "QtyItem": 1, "PrcItem": 19900,
+             "Impuesto": [{"CodImp": 14, "price_include": true, "TasaImp": 19.0}]},
+            {"NroLinDet": 2, "NmbItem": "Alineacion y balanceo",
+             "QtyItem": 1, "PrcItem": 9900,
+             "Impuesto": [{"CodImp": 14, "price_include": true, "TasaImp": 19.0}]}
+          ],
+          "Referencia": [
+            {"NroLinRef": 1, "CodRef": "SET", "RazonRef": "CASO-1"}
+          ]
+        },
+        {
+          "_comentario": "CASO-2: 1 item con cantidad alta. Total esperado 2040",
+          "Encabezado": {
+            "IdDoc": {"Folio": 2, "FchEmis": "2026-04-29", "IndServicio": 3},
+            "Receptor": {
+              "RUTRecep": "66666666-6",
+              "RznSocRecep": "Sin RUT",
+              "DirRecep": "Santiago",
+              "CmnaRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {"NroLinDet": 1, "NmbItem": "Papel de regalo",
+             "QtyItem": 17, "PrcItem": 120,
+             "Impuesto": [{"CodImp": 14, "price_include": true, "TasaImp": 19.0}]}
+          ],
+          "Referencia": [
+            {"NroLinRef": 1, "CodRef": "SET", "RazonRef": "CASO-2"}
+          ]
+        },
+        {
+          "_comentario": "CASO-3: 2 items distintos. Total esperado 4100",
+          "Encabezado": {
+            "IdDoc": {"Folio": 3, "FchEmis": "2026-04-29", "IndServicio": 3},
+            "Receptor": {
+              "RUTRecep": "66666666-6",
+              "RznSocRecep": "Sin RUT",
+              "DirRecep": "Santiago",
+              "CmnaRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {"NroLinDet": 1, "NmbItem": "Sandwic",
+             "QtyItem": 2, "PrcItem": 1500,
+             "Impuesto": [{"CodImp": 14, "price_include": true, "TasaImp": 19.0}]},
+            {"NroLinDet": 2, "NmbItem": "Bebida",
+             "QtyItem": 2, "PrcItem": 550,
+             "Impuesto": [{"CodImp": 14, "price_include": true, "TasaImp": 19.0}]}
+          ],
+          "Referencia": [
+            {"NroLinRef": 1, "CodRef": "SET", "RazonRef": "CASO-3"}
+          ]
+        },
+        {
+          "_comentario": "CASO-4: boleta mixta (afecto + exento). IndExe=1 en linea exenta. Total 14720 (Exe 2000)",
+          "Encabezado": {
+            "IdDoc": {"Folio": 4, "FchEmis": "2026-04-29", "IndServicio": 3},
+            "Receptor": {
+              "RUTRecep": "66666666-6",
+              "RznSocRecep": "Sin RUT",
+              "DirRecep": "Santiago",
+              "CmnaRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {"NroLinDet": 1, "NmbItem": "item afecto 1",
+             "QtyItem": 8, "PrcItem": 1590,
+             "Impuesto": [{"CodImp": 14, "price_include": true, "TasaImp": 19.0}]},
+            {"NroLinDet": 2, "IndExe": 1, "NmbItem": "item exento 2",
+             "QtyItem": 2, "PrcItem": 1000}
+          ],
+          "Referencia": [
+            {"NroLinRef": 1, "CodRef": "SET", "RazonRef": "CASO-4"}
+          ]
+        },
+        {
+          "_comentario": "CASO-5: producto con unidad de medida (Kg). Total 3500",
+          "Encabezado": {
+            "IdDoc": {"Folio": 5, "FchEmis": "2026-04-29", "IndServicio": 3},
+            "Receptor": {
+              "RUTRecep": "66666666-6",
+              "RznSocRecep": "Sin RUT",
+              "DirRecep": "Santiago",
+              "CmnaRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {"NroLinDet": 1, "NmbItem": "Arroz",
+             "QtyItem": 5, "UnmdItem": "Kg", "PrcItem": 700,
+             "Impuesto": [{"CodImp": 14, "price_include": true, "TasaImp": 19.0}]}
+          ],
+          "Referencia": [
+            {"NroLinRef": 1, "CodRef": "SET", "RazonRef": "CASO-5"}
+          ]
+        }
+      ]
+    }
+  ]
+}

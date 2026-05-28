@@ -1,0 +1,47 @@
+# Certificados digitales y CAFs reales (NUNCA al repo público)
+*.pfx
+*.p12
+*.pem
+*.key
+caf/
+certificados/
+certificado/
+
+# Archivos firmados con datos reales
+envios/
+envios_*/
+muestras_impresas/
+dtes_firmados*/
+
+# CAFs descargados del SII (contienen firma SII por RUT)
+FoliosSII*.xml
+
+# XMLs con tracks reales
+*track*.xml
+EnvioBOLETA_*FIRMADO*.xml
+EnvioDTE_*FIRMADO*.xml
+
+# Logs
+*.log
+out/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.python-version
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Datos sensibles
+.env
+.env.*
+secrets/
+config.local.*

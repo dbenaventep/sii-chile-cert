@@ -1,0 +1,56 @@
+{
+  "_comentario": "T46 factura de compra electronica con retencion total IVA (cambio sujeto). CodImpAdic=15 en cada linea con Impuesto Retencion 19%. En carátula MntTotal = Neto (NO Neto+IVA, porque hay retención total).",
+  "test": false,
+  "verify": true,
+  "Emisor": {
+    "RUTEmisor": "76123456-7",
+    "RznSoc": "EMPRESA DEMO SPA",
+    "GiroEmis": "SERVICIOS DEMO",
+    "Actecos": [123456],
+    "DirOrigen": "CALLE DEMO 123",
+    "CmnaOrigen": "PROVIDENCIA",
+    "CiudadOrigen": "SANTIAGO",
+    "Modo": "certificacion",
+    "NroResol": 0,
+    "FchResol": "2026-04-28",
+    "ValorIva": 19
+  },
+  "firma_electronica": {
+    "init_signature": true,
+    "string_firma": "<BASE64_DEL_PFX>",
+    "string_password": "<PASSWORD_PFX>",
+    "rut_firmante": "11111111-1"
+  },
+  "ID": "FacturaCompraRetencion",
+  "Documento": [
+    {
+      "TipoDTE": 46,
+      "caf_file": ["<CAF_BASE64_DE_T46>"],
+      "documentos": [
+        {
+          "Encabezado": {
+            "IdDoc": {"Folio": 1, "FchEmis": "2026-04-29"},
+            "Receptor": {
+              "RUTRecep": "77234567-8",
+              "RznSocRecep": "PROVEEDOR DEMO LTDA",
+              "GiroRecep": "GIRO PROVEEDOR",
+              "DirRecep": "Proveedor 789",
+              "CmnaRecep": "Providencia",
+              "CiudadRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {
+              "NroLinDet": 1, "NmbItem": "Servicio Demo",
+              "QtyItem": 1, "PrcItem": 850000,
+              "CodImpAdic": 15,
+              "Impuesto": [
+                {"CodImp": 15, "Retencion": 19.0, "price_include": false, "TasaImp": 19.0}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+## Patch: dansanti/facturacion_electronica v0.21.2 - arreglos para boletas T39
+##
+## Contiene:
+##   1. documento.py - Referencia: para boletas con TpoDocRef=SET, generar
+##      <CodRef>SET</CodRef> como string en lugar de TpoDocRef+FolioRef+FchRef
+##      (el XSD oficial de boletas solo permite NroLinRef + CodRef + RazonRef).
+##
+##   2. documento.py - Encabezado: bloque RUTProvSW está dentro de docstring,
+##      nunca se ejecuta. Si certificas facturas T33 con campos 2026 lo necesitas
+##      activado. Para boletas el campo NO debe aparecer en el XSD oficial,
+##      entonces lo dejamos comentado pero como comentario regular (no docstring).
+##
+## Aplicar desde la raíz del package:
+##   patch -d $(python -c "import facturacion_electronica,os; print(os.path.dirname(facturacion_electronica.__file__))") -p1 < dansanti-fe-0.21.2-boletas.patch
+
+--- a/documento.py
++++ b/documento.py
+@@ -465,10 +465,9 @@
+         encabezado['IdDoc'] = self.IdDoc
+         encabezado['Emisor'] = self.Emisor
+         encabezado['Receptor'] = self.Receptor
+-        '''
+-        if self.es_boleta() and self.RutProvSW:
+-            encabezado['RUTProvSW'] = self.RutProvSW
+-        '''
++        # NOTA: RUTProvSW NO existe en el XSD oficial de boletas T39/T41.
++        # Si certificas facturas T33 con campos 2026, descomenta:
++        #     if not self.es_boleta() and self.RutProvSW:
++        #         encabezado['RUTProvSW'] = self.RutProvSW
+         if self.Transporte:
+             encabezado['Transporte'] = self.Transporte
+         encabezado['Totales'] = self.Totales
+@@ -1185,15 +1184,17 @@
+         for ref in self._referencias:
+                 ref_line = collections.OrderedDict()
+                 ref_line['NroLinRef'] = ref.NroLinRef or lin_ref
+-                if not self.es_boleta():
++                # Para boletas: el XSD oficial NO permite TpoDocRef/FolioRef/FchRef
++                # en Referencia. Solo NroLinRef + CodRef (string) + RazonRef.
++                # Facturas mantienen el comportamiento original.
++                if not self.es_boleta():
+                     if ref.TpoDocRef:
+                         ref_line['TpoDocRef'] = ref.TpoDocRef
+-                        ref_line['FolioRef'] = ref.FolioRef
++                        if ref.FolioRef:
++                            ref_line['FolioRef'] = ref.FolioRef
+                     ref_line['FchRef'] = ref.FchRef or datetime.strftime(
+                                             datetime.now(), '%Y-%m-%d')
+                 if ref.CodRef:
+                     ref_line['CodRef'] = ref.CodRef
+                     if ref.CodRef == 2:
+                         dice = re.compile(r'DICE:(.*)DEBE DECIR:')

@@ -1,0 +1,45 @@
+{
+  "_comentario": "Archivo 2 del intercambio: EnvioRecibos (schema EnvioRecibos_v10.xsd). CUIDADO: RutRecibe en Carátula es el RUT del EMISOR ORIGINAL (a quien le respondes), NO el tuyo. MntTotal debe ser el valor real del DTE.",
+  "test": false,
+  "verify": true,
+  "Emisor": {
+    "RUTEmisor": "76123456-7",
+    "RznSoc": "EMPRESA DEMO SPA",
+    "GiroEmis": "SERVICIOS DEMO",
+    "Actecos": [123456],
+    "DirOrigen": "CALLE DEMO 123",
+    "CmnaOrigen": "PROVIDENCIA",
+    "CiudadOrigen": "SANTIAGO",
+    "Modo": "certificacion",
+    "NroResol": 0,
+    "FchResol": "2026-04-28",
+    "ValorIva": 19
+  },
+  "firma_electronica": {
+    "init_signature": true,
+    "string_firma": "<BASE64_DEL_PFX>",
+    "string_password": "<PASSWORD_PFX>",
+    "rut_firmante": "11111111-1"
+  },
+  "EnvioRecibos": [
+    {
+      "_comentario_rutrecibe": "RUT del emisor original del DTE que estoy acuse-recibiendo, NO mi RUT.",
+      "RutRecibe": "88888888-8",
+      "Recibo": [
+        {
+          "DocumentoRecibo": {
+            "TipoDoc": 33,
+            "Folio": 100,
+            "FchEmis": "2026-04-28",
+            "RUTEmisor": "88888888-8",
+            "RUTRecep": "76123456-7",
+            "MntTotal": 31294,
+            "Recinto": "OFICINA",
+            "RutFirma": "11111111-1",
+            "Declaracion": "El acuse de recibo que se declara en este acto, de acuerdo a lo dispuesto en la letra b) del Art. 4°, y la letra c) del Art. 5° de la Ley 19.983, acredita que la entrega de mercaderías o servicio(s) prestado(s) ha(n) sido recibido(s)."
+          }
+        }
+      ]
+    }
+  ]
+}

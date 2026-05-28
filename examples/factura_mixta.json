@@ -1,0 +1,57 @@
+{
+  "_comentario": "T33 mixta - 2 items afectos + 1 exento. IndExe=1 en linea exenta.",
+  "test": false,
+  "verify": true,
+  "Emisor": {
+    "RUTEmisor": "76123456-7",
+    "RznSoc": "EMPRESA DEMO SPA",
+    "GiroEmis": "SERVICIOS DEMO",
+    "Actecos": [123456],
+    "DirOrigen": "CALLE DEMO 123",
+    "CmnaOrigen": "PROVIDENCIA",
+    "CiudadOrigen": "SANTIAGO",
+    "Modo": "certificacion",
+    "NroResol": 0,
+    "FchResol": "2026-04-28",
+    "ValorIva": 19
+  },
+  "firma_electronica": {
+    "init_signature": true,
+    "string_firma": "<BASE64_DEL_PFX>",
+    "string_password": "<PASSWORD_PFX>",
+    "rut_firmante": "11111111-1"
+  },
+  "ID": "FacturaMixta",
+  "Documento": [
+    {
+      "TipoDTE": 33,
+      "caf_file": ["<CAF_BASE64>"],
+      "documentos": [
+        {
+          "Encabezado": {
+            "IdDoc": {"Folio": 1, "FchEmis": "2026-04-29"},
+            "Receptor": {
+              "RUTRecep": "77234567-8",
+              "RznSocRecep": "CLIENTE DEMO LTDA",
+              "GiroRecep": "GIRO DEMO",
+              "DirRecep": "Cliente 456",
+              "CmnaRecep": "Providencia",
+              "CiudadRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {"NroLinDet": 1, "NmbItem": "Producto Afecto A",
+             "QtyItem": 10, "PrcItem": 5000,
+             "Impuesto": [{"CodImp": 14, "price_include": false, "TasaImp": 19.0}]},
+            {"NroLinDet": 2, "NmbItem": "Producto Afecto B",
+             "QtyItem": 3, "PrcItem": 12000,
+             "Impuesto": [{"CodImp": 14, "price_include": false, "TasaImp": 19.0}]},
+            {"NroLinDet": 3, "IndExe": 1,
+             "NmbItem": "Servicio Exento",
+             "QtyItem": 1, "PrcItem": 25000}
+          ]
+        }
+      ]
+    }
+  ]
+}

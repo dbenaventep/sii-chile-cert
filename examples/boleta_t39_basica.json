@@ -1,0 +1,60 @@
+{
+  "test": false,
+  "verify": true,
+  "Emisor": {
+    "RUTEmisor": "76123456-7",
+    "RznSoc": "EMPRESA EJEMPLO SPA",
+    "GiroEmis": "SERVICIOS DE EJEMPLO",
+    "Actecos": [123456],
+    "DirOrigen": "CALLE EJEMPLO 123",
+    "Telefono": "+56912345678",
+    "CmnaOrigen": "PROVIDENCIA",
+    "CiudadOrigen": "SANTIAGO",
+    "CorreoEmisor": "facturacion@empresa.cl",
+    "Modo": "certificacion",
+    "NroResol": 0,
+    "FchResol": "2026-04-28",
+    "ValorIva": 19
+  },
+  "firma_electronica": {
+    "init_signature": true,
+    "string_firma": "<BASE64_DEL_PFX>",
+    "string_password": "<PASSWORD_PFX>",
+    "rut_firmante": "11111111-1"
+  },
+  "ID": "BoletaT39Basica",
+  "Documento": [
+    {
+      "TipoDTE": 39,
+      "caf_file": ["<CAF_BASE64_DE_T39>"],
+      "documentos": [
+        {
+          "Encabezado": {
+            "IdDoc": {
+              "Folio": 1,
+              "FchEmis": "2026-04-29",
+              "IndServicio": 3
+            },
+            "Receptor": {
+              "RUTRecep": "66666666-6",
+              "RznSocRecep": "Sin RUT",
+              "DirRecep": "Santiago",
+              "CmnaRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {
+              "NroLinDet": 1,
+              "NmbItem": "Producto Ejemplo",
+              "QtyItem": 1,
+              "PrcItem": 11900,
+              "Impuesto": [
+                {"CodImp": 14, "price_include": true, "TasaImp": 19.0}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

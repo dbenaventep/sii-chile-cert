@@ -1,0 +1,70 @@
+{
+  "test": false,
+  "verify": true,
+  "Emisor": {
+    "RUTEmisor": "76123456-7",
+    "RznSoc": "EMPRESA EJEMPLO SPA",
+    "GiroEmis": "SERVICIOS DE EJEMPLO",
+    "Actecos": [123456],
+    "DirOrigen": "CALLE EJEMPLO 123 OF 456",
+    "Telefono": "+56912345678",
+    "CmnaOrigen": "PROVIDENCIA",
+    "CiudadOrigen": "SANTIAGO",
+    "CorreoEmisor": "facturacion@empresa.cl",
+    "Modo": "certificacion",
+    "NroResol": 0,
+    "FchResol": "2026-04-28",
+    "ValorIva": 19
+  },
+  "firma_electronica": {
+    "init_signature": true,
+    "string_firma": "<BASE64_DEL_PFX>",
+    "string_password": "<PASSWORD_PFX>",
+    "rut_firmante": "11111111-1"
+  },
+  "ID": "FacturaBasica",
+  "Documento": [
+    {
+      "TipoDTE": 33,
+      "caf_file": ["<CAF_BASE64_DE_T33>"],
+      "documentos": [
+        {
+          "Encabezado": {
+            "IdDoc": {
+              "Folio": 1,
+              "FchEmis": "2026-04-29"
+            },
+            "Receptor": {
+              "RUTRecep": "77234567-8",
+              "RznSocRecep": "CLIENTE EJEMPLO LTDA",
+              "GiroRecep": "GIRO CLIENTE",
+              "DirRecep": "Av. Cliente 456",
+              "CmnaRecep": "Providencia",
+              "CiudadRecep": "Santiago"
+            }
+          },
+          "Detalle": [
+            {
+              "NroLinDet": 1,
+              "NmbItem": "Producto Ejemplo A",
+              "QtyItem": 10,
+              "PrcItem": 5000,
+              "Impuesto": [
+                {"CodImp": 14, "price_include": false, "TasaImp": 19.0}
+              ]
+            },
+            {
+              "NroLinDet": 2,
+              "NmbItem": "Producto Ejemplo B",
+              "QtyItem": 5,
+              "PrcItem": 12000,
+              "Impuesto": [
+                {"CodImp": 14, "price_include": false, "TasaImp": 19.0}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
