@@ -55,7 +55,60 @@ Certificarse ante el SII de Chile como emisor electrónico es un proceso documen
 - ✅ Documentación de las 7 etapas del proceso
 - ✅ Ejemplos JSON anonimizados
 - ✅ Patches dansanti documentados
-- ⏳ Módulos Python autosuficientes (sin dependencia de librerías de terceros) — en desarrollo
+- ✅ Paquete Python autosuficiente `siicl` (no depende de dansanti) con tests
+- ✅ CLI scripts: `siicl-emit-factura`, `siicl-emit-boleta`, `siicl-upload`, `siicl-generar-pdf`, `siicl-validar-xsd`
+
+## Instalación y uso del paquete `siicl`
+
+```bash
+# Clonar
+git clone https://github.com/dbenaventep/sii-chile-cert.git
+cd sii-chile-cert
+
+# Instalar
+pip install -e .
+# o solo las deps:  pip install -r requirements.txt
+
+# Ejecutar tests
+pip install -e ".[dev]"
+pytest
+```
+
+### Uso programático
+
+```python
+from siicl.dte import DTE, Emisor, Receptor, Item, Referencia, dte_a_xml, envio_boleta, firmar_envio
+from siicl.firma import Cert
+from siicl.caf import CAF
+from siicl.timbre import DatosTED, construir_ted
+from siicl.cliente import enviar_soap
+
+cert = Cert.from_pfx("mi.pfx", "mi_password")
+caf = CAF.from_file("CAF_T39.xml")
+
+dte = DTE(
+    tipo=39, folio=1, fecha_emision="2026-04-29",
+    emisor=Emisor(rut="76123456-0", razon_social="MI EMPRESA SPA", ...),
+    receptor=Receptor(rut="66666666-6", razon_social="Sin RUT", ...),
+    items=[Item("Producto", 1, 11900)],
+    referencias=[Referencia(razon="CASO-1", codigo_referencia="SET")],
+)
+# Generar DTE → TED → firmar → envío → upload SII
+# (ver bin/ y siicl/cli.py para flujos completos)
+```
+
+### Módulos
+
+| Módulo | Función |
+|---|---|
+| `siicl.types` | RUT (validación módulo 11), TipoDTE enum |
+| `siicl.firma` | Cargar PFX, firmar XML con XMLDSig (RSA-SHA1, c14n) |
+| `siicl.caf` | Parser de archivos CAF del SII |
+| `siicl.timbre` | TED + código de barras PDF417 (ISO-8859-1) |
+| `siicl.dte` | Construir DTE/EnvioDTE/EnvioBOLETA/ConsumoFolios |
+| `siicl.cliente` | HTTP SOAP (maullin/palena) + REST (pangal/rahue) |
+| `siicl.pdf` | Renderizado DTE → PDF con timbre |
+| `siicl.validacion` | Validación contra XSD oficial del SII |
 
 ## Contribuciones
 
