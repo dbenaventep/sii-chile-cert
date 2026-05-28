@@ -1,5 +1,4 @@
 """Tests de siicl.pdf."""
-import pytest
 
 from siicl.caf import CAF
 from siicl.dte import DTE, Emisor, Item, Receptor, Referencia, dte_a_xml

@@ -1,10 +1,9 @@
 """Tests de siicl.dte."""
-import pytest
 from lxml import etree
 
 from siicl.dte import (
-    NS_SII,
     DTE,
+    NS_SII,
     Emisor,
     Item,
     Receptor,

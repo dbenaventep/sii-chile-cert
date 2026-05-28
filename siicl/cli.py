@@ -106,7 +106,12 @@ def upload():
     parser.add_argument("--filename", help="Nombre del archivo en multipart")
     args = parser.parse_args()
 
-    from siicl.cliente import enviar_soap, obtener_semilla_rest, obtener_token_rest, upload_boleta_rest
+    from siicl.cliente import (
+        enviar_soap,
+        obtener_semilla_rest,
+        obtener_token_rest,
+        upload_boleta_rest,
+    )
     from siicl.firma import Cert
 
     cert = Cert.from_pfx(args.pfx, args.password)

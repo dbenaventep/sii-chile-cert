@@ -9,15 +9,15 @@ referencias de boletas, etc.) — ver docs/xsd-oficial-vs-dansanti.md.
 """
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime
 from io import StringIO
-from typing import Iterable
 
 from lxml import etree
 
 from siicl.firma import Cert, firmar_xml
-from siicl.types import RUT_SII, TipoDTE, es_boleta
+from siicl.types import RUT_SII, es_boleta
 
 NS_SII = "http://www.sii.cl/SiiDte"
 

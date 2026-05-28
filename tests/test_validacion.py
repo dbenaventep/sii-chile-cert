@@ -1,11 +1,7 @@
 """Tests de siicl.validacion."""
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from siicl.validacion import descargar_xsds, validar_xml, validar_xml_str
-
 
 # Mini XSD para test sin red
 MINI_XSD = b"""<?xml version="1.0"?>

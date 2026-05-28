@@ -65,8 +65,10 @@ class TestRut:
         assert not Rut.parse("76123456-1").es_valido()  # DV equivocado
 
     def test_inmutable(self):
+        from dataclasses import FrozenInstanceError
+
         rut = Rut.parse("76123456-0")
-        with pytest.raises(Exception):  # FrozenInstanceError
+        with pytest.raises(FrozenInstanceError):
             rut.numero = 12345
 
 

@@ -4,8 +4,6 @@ Estos tests NO golpean el SII real — usan mocks de requests.
 """
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from siicl.cliente import (
     REST_ENVIO_HOSTS,
     REST_TOKEN_HOSTS,

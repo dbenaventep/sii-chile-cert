@@ -135,7 +135,7 @@ def canonicalize(elem: etree._Element) -> bytes:
 
 def calcular_digest(elem: etree._Element) -> str:
     """Calcula el DigestValue SHA-1 base64 del elemento canonicalizado."""
-    from cryptography.hazmat.primitives.hashes import Hash, SHA1
+    from cryptography.hazmat.primitives.hashes import SHA1, Hash
 
     canonical = canonicalize(elem)
     h = Hash(SHA1())

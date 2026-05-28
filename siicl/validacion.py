@@ -9,7 +9,6 @@ from __future__ import annotations
 import io
 import zipfile
 from pathlib import Path
-from typing import Iterable
 
 import requests
 from lxml import etree
@@ -53,7 +52,7 @@ def descargar_xsds(destino: str | Path) -> list[Path]:
         descargados.append(path)
 
     # ZIPs
-    for nombre_zip, url in ZIPS.items():
+    for _nombre_zip, url in ZIPS.items():
         resp = requests.get(url, timeout=60)
         if resp.status_code != 200:
             continue  # algunos ZIPs pueden no estar disponibles
