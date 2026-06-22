@@ -21,7 +21,43 @@ El certificado lo emite la persona natural autorizada por la empresa (RUT firman
 
 El archivo `.pfx` contiene la clave privada protegida con password. **Nunca lo subas a un repo**.
 
-## 1.3. Postular a ambiente de certificación
+## 1.3. Autorizar al RUT del firmante ante el SII
+
+**Este paso se olvida con frecuencia y produce el error "RUT No Autorizado a Firmar Documentos Electrónicos" al enviar los sets.**
+
+El RUT de la persona dueña del certificado digital (el firmante) debe estar **explícitamente autorizado** por la empresa para firmar DTEs en su nombre. No basta con que tenga el `.pfx`; el SII mantiene una lista por empresa de RUTs habilitados como firmantes, y el envío se rechaza si el firmante no está en esa lista.
+
+### Cómo autorizarlo
+
+El representante legal de la empresa entra a `sii.cl` con su clave y va a:
+
+`Mi SII → Servicios online → Factura electrónica → Sistema de facturación gratuito del SII → "Inscríbase aquí" / "Administración de usuarios" → Agregar usuario autorizado`
+
+(El nombre exacto del menú varía según el año; busca cualquier opción que mencione "usuario autorizado", "habilitar firmante" o "delegar firma electrónica".)
+
+Pasos:
+
+1. Ingresa el RUT de la persona (el dueño del certificado).
+2. Asigna el permiso **"Firmar Documentos Tributarios Electrónicos"** (o equivalente).
+3. Si corresponde, asigna también permisos para emitir/anular/ceder.
+4. Guarda.
+
+El firmante puede ser el mismo representante legal o un tercero (contador, integrador, empleado). Es por **RUT persona**, no por certificado.
+
+### Verificar que quedó habilitado
+
+- Desde el portal del SII, sección de administración de usuarios, debería aparecer en la lista.
+- Si al enviar el set llega un correo del SII con asunto similar a *"RUT No Autorizado a Firmar Documentos Electrónicos"*, el paso anterior no se hizo (o se hizo para una empresa distinta).
+
+### En empresas con holding / múltiples RUTs
+
+Cada empresa (RUT emisor) mantiene su propia lista de firmantes autorizados. Si un mismo contador firma para 5 empresas, debe estar habilitado en las 5 por separado.
+
+### Caso especial: el firmante es el mismo representante legal
+
+Aun así conviene revisarlo en el portal: en algunos casos el SII pide hacer click explícitamente en "habilitar como firmante" aunque sea la misma persona que administra la empresa.
+
+## 1.4. Postular a ambiente de certificación
 
 En `sii.cl`:
 
@@ -32,7 +68,7 @@ Llenas el formulario. El SII responde por correo con:
 - Set de pruebas inicial (texto con casos)
 - Acceso al ambiente de certificación (`maullin.sii.cl` para SOAP / `apicert.sii.cl` para REST de boletas)
 
-## 1.4. Solicitar CAFs (timbraje de folios)
+## 1.5. Solicitar CAFs (timbraje de folios)
 
 Antes de emitir, necesitas un CAF por cada tipo de documento que vas a usar.
 
@@ -44,7 +80,7 @@ Guárdalos en una carpeta `caf/` (fuera del repo, ver `.gitignore`).
 
 **Trampa:** "pedir CAFs" ≠ "pedir set de pruebas". Si el set queda rechazado (SRH) y pides un CAF nuevo, el SII te da más folios pero **el mismo set ID** sigue activo. Para resetear el set, hay que reiniciar el proceso de certificación específicamente.
 
-## 1.5. Datos del emisor que se inyectan en cada DTE
+## 1.6. Datos del emisor que se inyectan en cada DTE
 
 Los siguientes campos del emisor van en cada documento (no cambian entre DTEs):
 
@@ -71,7 +107,7 @@ EMISOR = {
 
 **Receptor obligatorio en envíos al SII:** siempre `<RutReceptor>60803000-K</RutReceptor>` en la Carátula (el RUT del SII).
 
-## 1.6. Resumen de credenciales necesarias
+## 1.7. Resumen de credenciales necesarias
 
 | Credencial | Dónde se obtiene | Dónde se usa |
 |---|---|---|

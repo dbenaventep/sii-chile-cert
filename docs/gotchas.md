@@ -2,6 +2,19 @@
 
 Esta es la lista que hubiera ahorrado días si la hubiera tenido antes de empezar.
 
+## "RUT No Autorizado a Firmar Documentos Electrónicos" al enviar el set
+
+**Síntoma:** envías el set y a los minutos llega un correo del SII con asunto similar a *"RUT No Autorizado a Firmar Documentos Electrónicos"*. El envío no queda asociado al set.
+
+**Causa real:** el RUT de la persona dueña del certificado digital (el firmante) no está habilitado en el portal del SII como "usuario autorizado a firmar DTE" para esa empresa. Tener el `.pfx` no es suficiente: el SII mantiene una lista por empresa de RUTs habilitados como firmantes.
+
+**Solución:** el representante legal de la empresa entra a `sii.cl` y va a `Mi SII → Servicios online → Factura electrónica → Sistema de facturación gratuito del SII → Administración de usuarios → Agregar usuario autorizado` y agrega el RUT de la persona dueña del certificado con permiso "Firmar Documentos Tributarios Electrónicos". Ver [`docs/01-setup-emisor.md` §1.3](01-setup-emisor.md#13-autorizar-al-rut-del-firmante-ante-el-sii).
+
+**Casos típicos donde se olvida:**
+- El cert lo emitió un contador o integrador externo, y nunca lo registraron como firmante.
+- La empresa tiene varios RUTs (holding) y se habilitó al firmante en uno solo.
+- El firmante es el mismo representante legal y se asume que está habilitado por defecto — a veces no lo está y hay que activarlo explícitamente.
+
 ## "El Documento no esta en el envio" en revisión del set (boletas T39)
 
 **Síntoma:** envías el set, recibes `EPR` (envío aceptado), pero al ingresar el track en la pantalla de revisión del set en el portal del SII te aparece:
