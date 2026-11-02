@@ -7,7 +7,7 @@ Esta es la etapa más sub-documentada y donde más gente se atasca. La documenta
 1. **Endpoint:** `maullin.sii.cl/cgi_dte/UPL/DTEUpload` por SOAP. **NO** `pangal.sii.cl`.
 2. **Wrapper XML:** `<EnvioBOLETA>` con schema `EnvioBOLETA_v11.xsd`.
 3. **Referencia al set:** SOLO `<NroLinRef> + <CodRef>SET</CodRef> + <RazonRef>CASO-N</RazonRef>`.
-4. **No incluir:** `<RUTProvSW>` (no existe en XSD oficial boletas), ni `<TpoDocRef>`, `<FolioRef>`, `<FchRef>` en `<Referencia>`.
+4. **No incluir:** `<FchRef>` en `<Referencia>`.
 5. **`IndServicio>3</IndServicio>`** obligatorio dentro de `<IdDoc>`.
 6. **RCOF (Resumen Ventas Diarias)** debe enviarse también, por el mismo endpoint, con folios alineados al envío de boletas.
 
@@ -15,17 +15,17 @@ Esta es la etapa más sub-documentada y donde más gente se atasca. La documenta
 
 Este es el cuadro que NADIE me había mostrado claramente:
 
-| Aspecto | Facturas T33 | Boletas T39 |
-|---|---|---|
-| Endpoint cert | `maullin.sii.cl/cgi_dte/UPL/DTEUpload` | igual |
-| Endpoint prod | `palena.sii.cl/cgi_dte/UPL/DTEUpload` | **`pangal.sii.cl/recursos/v1/boleta.electronica.envio`** (REST) |
-| Wrapper XML | `<EnvioDTE>` | `<EnvioBOLETA>` |
-| Schema | `EnvioDTE_v10.xsd` | `EnvioBOLETA_v11.xsd` |
-| RutReceptor en carátula | `60803000-K` | `60803000-K` (igual) |
-| Campo `<TpoImpresion>` | Sí | No |
-| Campo `<IndServicio>` | No | **Sí**, valores 1/2/3 |
-| Campo `<RUTProvSW>` (desde 2026) | Sí | **No** (no está en XSD oficial) |
-| Ref. al SET | `<TpoDocRef>SET</TpoDocRef><FolioRef>F</FolioRef><FchRef>...</FchRef><RazonRef>CASO {ID}-{N}</RazonRef>` | **`<CodRef>SET</CodRef><RazonRef>CASO-{N}</RazonRef>`** (mucho más minimal) |
+| Aspecto                 | Facturas T33                                                                                                                                                                    | Boletas T39                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Endpoint cert           | `maullin.sii.cl/cgi_dte/UPL/DTEUpload`                                                                                                                                          | igual                                                                       |
+| Endpoint prod           | `palena.sii.cl/cgi_dte/UPL/DTEUpload`                                                                                                                                           | **`pangal.sii.cl/recursos/v1/boleta.electronica.envio`** (REST)             |
+| Wrapper XML             | `<EnvioDTE>`                                                                                                                                                                    | `<EnvioBOLETA>`                                                             |
+| Schema                  | `EnvioDTE_v10.xsd`                                                                                                                                                              | `EnvioBOLETA_v11.xsd`                                                       |
+| RutReceptor en carátula | `60803000-K`                                                                                                                                                                    | `60803000-K` (igual)                                                        |
+| Campo `<TpoImpresion>`  | Sí                                                                                                                                                                              | No                                                                          |
+| Campo `<IndServicio>`   | No                                                                                                                                                                              | **Sí**, valores 1/2/3                                                       |
+| Campo `<RUTProvSW>`     | **No** (documentada en [formato oficial](https://www.sii.cl/factura_electronica/factura_mercado/formato_dte_202602.pdf) como `RutProvSW`, pero no verificable en `DTE_v10.xsd`) | - `<RUTProvSW>` (sí existe en `EnvioBOLETA_v11.xsd` a partir de 2026)       |
+| Ref. al SET             | `<TpoDocRef>SET</TpoDocRef><FolioRef>F</FolioRef><FchRef>...</FchRef><RazonRef>CASO {ID}-{N}</RazonRef>`                                                                        | **`<CodRef>SET</CodRef><RazonRef>CASO-{N}</RazonRef>`** (mucho más minimal) |
 
 ## Estructura del SET DE PRUEBAS BOLETAS
 
@@ -125,8 +125,8 @@ Notas importantes del set:
 ```
 
 **Lo que NO debe estar:**
-- `<RUTProvSW>` en `<Encabezado>` — no existe en el XSD oficial de boletas (aunque tu librería lo genere por bug, hay que parchar)
-- `<TpoDocRef>`, `<FolioRef>`, `<FchRef>` dentro de `<Referencia>` — no existen en el XSD oficial de boletas
+
+- `<FchRef>` dentro de `<Referencia>` — no existen en el XSD oficial de boletas
 - `<TpoImpresion>` en `<IdDoc>` — campo de facturas, no boletas
 
 ## Flujo completo
@@ -182,6 +182,7 @@ Alineacion y balanceo   1    9900
 ```
 
 XML:
+
 ```xml
 <Detalle>
   <NroLinDet>1</NroLinDet>
@@ -210,6 +211,7 @@ OBSERVACION: "El item 1 es un servicio afecto. El item 2 es un servicio exento."
 ```
 
 XML:
+
 ```xml
 <Detalle>
   <NroLinDet>1</NroLinDet>
@@ -238,6 +240,7 @@ OBSERVACION: "Se debe informar en el XML Unidad de medida en Kg."
 ```
 
 XML:
+
 ```xml
 <Detalle>
   <NroLinDet>1</NroLinDet>
@@ -292,9 +295,8 @@ XML:
 ## Errores típicos en este paso (ver [`gotchas.md`](gotchas.md) para detalle)
 
 - ❌ Mandar el set por pangal REST → `EPR` aceptado pero set siempre rechaza.
-- ❌ Mandar el set por maullin SOAP con `<RUTProvSW>` o referencia con campos extra → `HED-3-211 Dato invalido`.
 - ❌ Reenviar el RCOF con mismo filename → `SCH-00001 Invalid Schema Name` (mensaje engañoso, es deduplicación por filename).
-- ❌ Asumir que pedir CAF nuevo = pedir set nuevo. Son trámites distintos. Un set rechazado solo se libera reiniciando el proceso de cert, no descargando más folios.
+- ❌ Asumir que pedir CAF nuevo = pedir set nuevo. Son trámites distintos. En la experiencia documentada, solicitar un Set nuevo reinició solo parte de la certificación.
 
 ## Después del V°B°
 

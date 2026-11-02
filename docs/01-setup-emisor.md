@@ -47,7 +47,7 @@ El firmante puede ser el mismo representante legal o un tercero (contador, integ
 ### Verificar que quedó habilitado
 
 - Desde el portal del SII, sección de administración de usuarios, debería aparecer en la lista.
-- Si al enviar el set llega un correo del SII con asunto similar a *"RUT No Autorizado a Firmar Documentos Electrónicos"*, el paso anterior no se hizo (o se hizo para una empresa distinta).
+- Si al enviar el set llega un correo del SII con asunto similar a _"RUT No Autorizado a Firmar Documentos Electrónicos"_, el paso anterior no se hizo (o se hizo para una empresa distinta).
 
 ### En empresas con holding / múltiples RUTs
 
@@ -64,6 +64,7 @@ En `sii.cl`:
 `Mi SII → Servicios online → Factura electrónica → Sistema de facturación gratuito del SII → Postulación`
 
 Llenas el formulario. El SII responde por correo con:
+
 - Confirmación de inicio del proceso
 - Set de pruebas inicial (texto con casos)
 - Acceso al ambiente de certificación (`maullin.sii.cl` para SOAP / `apicert.sii.cl` para REST de boletas)
@@ -78,7 +79,34 @@ Selecciona el tipo de documento (T33, T34, T46, T52, T56, T61, T39, T41) y la ca
 
 Guárdalos en una carpeta `caf/` (fuera del repo, ver `.gitignore`).
 
-**Trampa:** "pedir CAFs" ≠ "pedir set de pruebas". Si el set queda rechazado (SRH) y pides un CAF nuevo, el SII te da más folios pero **el mismo set ID** sigue activo. Para resetear el set, hay que reiniciar el proceso de certificación específicamente.
+En nuestra experiencia, el ambiente de certificación permite solicitar inicialmente hasta 100 folios por tipo de DTE. Posteriormente, la cantidad autorizada depende del uso registrado por el SII.
+
+### Recomendación de planificación:
+
+| Tipo DTE                 | SET de prueba | Simulación | Solicitud inicial sugerida |
+| ------------------------ | ------------- | ---------- | -------------------------- |
+| Factura electrónica (33) | 4             | 10–26      | 14–30                      |
+| Nota de crédito (61)     | 3             | ≥1         | 10                         |
+| Nota de débito (56)      | 1             | ≥1         | 10                         |
+
+Las cantidades sugeridas son recomendaciones operativas basadas en la experiencia, no cuotas garantizadas por el SII. Conviene verificar la cantidad exacta de documentos exigida por el SET asignado.
+
+### Observaciones pendientes de confirmación:
+
+- No se ha confirmado si los CAF tienen vencimiento aplicable en este entorno.
+- Anular un rango aparentemente no restituye los folios disponibles para nuevas solicitudes.
+- La emisión de documentos parece aumentar la cantidad de folios que el SII permite solicitar posteriormente. Por ejemplo, emitir 10 podría permitir solicitar 20, pero esto no está demostrado como regla general.
+
+**Importante:** pedir un CAF no equivale a pedir un Set nuevo. En el proceso observado, pedir otro CAF no reinició el Set activo; solicitar un Set nuevo reinició solo parte de la certificación, pero no elimina los archivos o libros registrados anteriormente.
+
+| Problema                                            | Causa observada                                             | Solución o prevención                                                            |
+| --------------------------------------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Error al subir archivos                             | Se reutiliza un nombre de archivo anterior                  | Generar nombres únicos para cada carga                                           |
+| `LNC – Tipo de Envío de Libro No Corresponde`       | Reutilización de un período que ya tiene libros registrados | Revisar el período y el historial de libros antes de reiniciar                   |
+| `LRH – Envío de Libro Rechazado – Descuadrado`      | Libros de un período futuro con DTE de otro período         | Mantener consistencia entre períodos y documentos                                |
+| `(TED-1-647) Fecha Timbre Fuera de Rango Permitido` | Se cambian fechas de DTE para ajustarlas a otros períodos   | No alterar arbitrariamente fechas tributarias para resolver conflictos de libros |
+
+Advertencia: No debe asumirse que solicitar un nuevo SET deja el ambiente completamente limpio.
 
 ## 1.6. Datos del emisor que se inyectan en cada DTE
 
@@ -103,17 +131,17 @@ EMISOR = {
 }
 ```
 
-**`FchResol`** en cert: es la fecha del correo de habilitación del SII. Esa misma fecha va en todos los envíos (set, simulación, intercambio, etc.).
+**`FchResol` y `NroResol`**: informar los datos que el SII reconoce para el emisor. En el caso de certificación, `NroResol=0` junto con la fecha consultada en “Consultar Empresas Autorizadas”. Esa misma fecha va en todos los envíos (set, simulación, intercambio, etc.).
 
 **Receptor obligatorio en envíos al SII:** siempre `<RutReceptor>60803000-K</RutReceptor>` en la Carátula (el RUT del SII).
 
 ## 1.7. Resumen de credenciales necesarias
 
-| Credencial | Dónde se obtiene | Dónde se usa |
-|---|---|---|
-| Certificado `.pfx` + password | autoridad certificadora | firmar DTEs y envíos |
-| RUT firmante (persona) | el del cert digital | campo `RutEnvia` en Carátula |
-| RUT empresa | el SII | campo `RutEmisor` |
-| FchResol / NroResol cert | correo del SII | Carátula de cada envío |
-| CAFs por tipo de doc | portal SII | timbrar TED de cada DTE |
-| Clave tributaria empresa | el SII | acceder al portal cert |
+| Credencial                    | Dónde se obtiene        | Dónde se usa                 |
+| ----------------------------- | ----------------------- | ---------------------------- |
+| Certificado `.pfx` + password | autoridad certificadora | firmar DTEs y envíos         |
+| RUT firmante (persona)        | el del cert digital     | campo `RutEnvia` en Carátula |
+| RUT empresa                   | el SII                  | campo `RutEmisor`            |
+| FchResol / NroResol cert      | correo del SII          | Carátula de cada envío       |
+| CAFs por tipo de doc          | portal SII              | timbrar TED de cada DTE      |
+| Clave tributaria empresa      | el SII                  | acceder al portal cert       |

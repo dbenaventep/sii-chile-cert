@@ -4,23 +4,53 @@ Segunda etapa: emitir un volumen de DTEs simulando operación real, no datos pre
 
 ## Qué pide el SII
 
-Generar N documentos (típicamente 20-25) con datos **paralelos a la operación real**:
+Generar los documentos indicados en las instrucciones vigentes del SII, con datos **paralelos a la operación real**. El [manual de certificación](https://www.sii.cl/servicios_online/docs/manual_certificacion.pdf) indicaba usar 10–100 DTE históricos para la simulación; una simulación de siete DTE fue aceptada en nuestro caso. Esa aceptación observada no modifica el manual ni establece una excepción general.
+
+En el proceso observado, los documentos incluyeron:
+
+- Fechas válidas del mes actual
 - RUTs receptores ficticios pero con dígito verificador válido
 - Glosas variadas (acordes al giro de la empresa)
 - Cantidades y precios diversos
-- Mix de tipos: facturas, NC, ND (no es obligatorio incluir todos los tipos, pero al menos T33, una NC y una ND es lo recomendable)
 
-## Mix sugerido (basado en proceso aprobado)
+## Mix práctico para prever las Muestras Impresas (basado en proceso aprobado)
 
-| Cantidad | Tipo | Notas |
-|---|---|---|
-| ~18 | T33 facturas afectas | Variedad de glosas y montos |
-| 1 | T61 NC | `CodRef=2` corrige texto, 1 línea genérica |
-| 1 | T56 ND | `CodRef=3` corrige montos, recargo con monto fijo |
+| Recomendación práctica | Tipo                 | Notas                       |
+| ---------------------- | -------------------- | --------------------------- |
+| ~18                    | T33 facturas afectas | Variedad de glosas y montos |
+| 1                      | T61 NC               | `CodRef=2` corrige texto    |
+| 1                      | T56 ND               | `CodRef=3` corrige montos   |
 
-Si tu empresa emite también guías o exentas, agrega 2-3 de cada uno.
+La cantidad total y los tipos adicionales deben seguir el manual aplicable a la empresa. Si emite también guías o exentas, agrega 2-3 de cada uno.
 
 ## Reglas técnicas
+
+### Documentos necesarios para la muestra impresa
+
+Crítico antes de enviar
+
+La etapa posterior de muestra impresa requiere disponer, como mínimo, de:
+
+- Dos facturas electrónicas.
+- Una nota de crédito.
+- Una nota de débito.
+
+Si la simulación no incluye esos tipos de documentos, puede ser imposible completar la validación posterior.
+
+Planificar la muestra impresa antes de generar y subir la simulación, porque una vez enviada y declarada no se dispone de un mecanismo sencillo para reemplazarla.
+
+### Fechas de los DTE y del CAF
+
+Error observado:
+
+```
+Fecha del documento debe ser mayor
+o igual a la fecha autorizada por el SII en el CAF
+```
+
+**Causa:** Se intentó utilizar una fecha de emisión anterior a la autorización contenida en el CAF.
+
+**Solución:** En el caso probado, generar los documentos con fechas válidas del mes actual y no utilizar fechas anteriores a la autorización del CAF ni fechas futuras arbitrarias.
 
 ### NO referenciar el set en la simulación
 
@@ -59,17 +89,20 @@ Cuando la ND corrige montos, **suma al documento original** (no resta). Item tí
 }
 ```
 
-### NC "corrige texto" — 1 línea genérica
+### NC "corrige texto"
 
 ```python
 {
     "NroLinDet": 1,
-    "CdgItem": {"VlrCodigo": "NO_PRODUCT"},  # para saltar validación dansanti
     "NmbItem": "IMP. CORRIGE TEXTO",
     "QtyItem": 1,
     "PrcItem": 0
 }
 ```
+
+### Uso de operaciones simuladas
+
+Fue posible crear facturas y notas de crédito para las pruebas sin partir necesariamente de operaciones históricas.
 
 ## Envío y revisión
 
@@ -80,9 +113,11 @@ Mismo endpoint que set de pruebas (`maullin.sii.cl/cgi_dte/UPL/DTEUpload`).
 - Solicitar revisión en el portal SII → "Solicitud de revisión de simulación".
 - El SII responde por correo.
 
+**Recomendación:** Preparar y validar el lote completo antes de enviarlo, evitando dividirlo en múltiples sobres sin confirmación de que el SII lo permita para esa etapa.
+
 ## Importante: guardar los XMLs individuales
 
-**Después del envío exitoso de la simulación, guarda cada DTE individual** (extraído del `<EnvioDTE>` consolidado). Los necesitarás en la etapa siguiente de **Documentos Impresos** — el SII te pedirá los PDFs de algunos de la simulación.
+**Después del envío exitoso de la simulación, guarda cada DTE individual** (extraído del `<EnvioDTE>` consolidado). Los necesitarás en la etapa siguiente de **Documentos Impresos** — el SII te pedirá las muestras de PDFs de la simulación.
 
 ## Errores típicos
 

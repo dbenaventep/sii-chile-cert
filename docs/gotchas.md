@@ -4,13 +4,14 @@ Esta es la lista que hubiera ahorrado días si la hubiera tenido antes de empeza
 
 ## "RUT No Autorizado a Firmar Documentos Electrónicos" al enviar el set
 
-**Síntoma:** envías el set y a los minutos llega un correo del SII con asunto similar a *"RUT No Autorizado a Firmar Documentos Electrónicos"*. El envío no queda asociado al set.
+**Síntoma:** envías el set y a los minutos llega un correo del SII con asunto similar a _"RUT No Autorizado a Firmar Documentos Electrónicos"_. El envío no queda asociado al set.
 
 **Causa real:** el RUT de la persona dueña del certificado digital (el firmante) no está habilitado en el portal del SII como "usuario autorizado a firmar DTE" para esa empresa. Tener el `.pfx` no es suficiente: el SII mantiene una lista por empresa de RUTs habilitados como firmantes.
 
 **Solución:** el representante legal de la empresa entra a `sii.cl` y va a `Mi SII → Servicios online → Factura electrónica → Sistema de facturación gratuito del SII → Administración de usuarios → Agregar usuario autorizado` y agrega el RUT de la persona dueña del certificado con permiso "Firmar Documentos Tributarios Electrónicos". Ver [`docs/01-setup-emisor.md` §1.3](01-setup-emisor.md#13-autorizar-al-rut-del-firmante-ante-el-sii).
 
 **Casos típicos donde se olvida:**
+
 - El cert lo emitió un contador o integrador externo, y nunca lo registraron como firmante.
 - La empresa tiene varios RUTs (holding) y se habilitó al firmante en uno solo.
 - El firmante es el mismo representante legal y se asume que está habilitado por defecto — a veces no lo está y hay que activarlo explícitamente.
@@ -32,7 +33,8 @@ CASO-2     00     0     El Documento no esta en el envio
 **Solución:** envía el mismo `<EnvioBOLETA>` por SOAP a `maullin.sii.cl/cgi_dte/UPL/DTEUpload`. Es el mismo endpoint que se usa para facturas y libros.
 
 **Otras causas posibles (descartar en orden):**
-- Tu XML incluye campos no oficiales (`<RUTProvSW>`, `<TpoDocRef>`, `<FolioRef>`, `<FchRef>` en boletas). Quítalos.
+
+- Tu XML incluye campos no oficiales (`<FchRef>` en boletas). Quítalos.
 - La referencia tiene campos extra. Para boletas debe ser solo `<NroLinRef> + <CodRef>SET</CodRef> + <RazonRef>CASO-N</RazonRef>`.
 - El set ID quedó congelado tras varios rechazos. En este caso, la pantalla siempre devuelve el primer rechazo. Solo se libera reiniciando el proceso de cert de boletas (no pidiendo CAFs nuevos — eso no resetea el set).
 
@@ -49,8 +51,8 @@ CASO-2     00     0     El Documento no esta en el envio
 **Síntoma:** intentas mandar un `<EnvioBOLETA>` por maullin SOAP y el SII rechaza con `HED-3-211: Dato invalido` para cada DTE.
 
 **Causa real:** tu XML incluye campos que no están en el XSD oficial de boletas. Los más comunes son:
-- `<RUTProvSW>` en Encabezado — no existe en el XSD oficial de boletas (sí existe en facturas T33 a partir de 2026, no en boletas)
-- `<TpoDocRef>`, `<FolioRef>`, `<FchRef>` dentro de `<Referencia>` — el XSD oficial de boletas solo permite `<NroLinRef> + <CodRef> + <RazonRef>`
+
+-  `<FchRef>` dentro de `<Referencia>`
 
 **Solución:** quitar esos campos del XML. Las librerías como dansanti los agregan automáticamente porque tienen un XSD local extendido con campos no oficiales. Hay que parchar la librería.
 
@@ -65,6 +67,7 @@ CASO-2     00     0     El Documento no esta en el envio
 ## PDF417 ilegible cuando el SII lo escanea
 
 **Síntomas:**
+
 - "El Timbre es ilegible"
 - "Ha habido alguna alteración en el CAF entregado por el SII"
 - "TED - Firma invalida"
@@ -72,16 +75,19 @@ CASO-2     00     0     El Documento no esta en el envio
 **Causas y sus soluciones:**
 
 1. **TED codificado en UTF-8 en lugar de ISO-8859-1.** El TED contiene caracteres no-ASCII (`Ó`, `Ñ`, etc.) que el SII espera en ISO-8859-1. Si lo codificas UTF-8, los bytes cambian y la firma falla al escanear.
+
    ```python
    codes = pdf417_encode(ted_clean, encoding="iso-8859-1", ...)
    ```
 
 2. **PDF417 renderizado como SVG en vez de PNG raster.** WeasyPrint y otros renderers pierden resolución al embebir SVG; el escáner del SII ve líneas borrosas y falla.
+
    ```python
    img = render_image(codes, scale=4, ratio=3, padding=10)  # PNG raster
    ```
 
 3. **Byte compaction roto.** Si la librería pdf417 usa numeric compaction por defecto, los bytes binarios del TED se interpretan mal.
+
    ```python
    pdf417_encode(..., numeric_compaction=False)
    ```
@@ -93,9 +99,15 @@ CASO-2     00     0     El Documento no esta en el envio
 **Síntomas:** el SII rechaza con observación sobre el timbre tapando la leyenda.
 
 **Solución CSS:**
+
 ```css
-#barcode_block { align-items: center; }
-#imagen-svg { width: 60mm; margin: 0 auto 3mm; }
+#barcode_block {
+  align-items: center;
+}
+#imagen-svg {
+  width: 60mm;
+  margin: 0 auto 3mm;
+}
 ```
 
 ## "CEDIBLE" en minúsculas o "Cedible con su factura" mal puesto
@@ -103,6 +115,7 @@ CASO-2     00     0     El Documento no esta en el envio
 **Síntomas:** documento impreso aprobado pero observado por texto del cedible.
 
 **Solución:**
+
 - Para T33, T34, T46: leyenda `CEDIBLE` (mayúsculas, sin recuadro, esquina inferior derecha, rojo)
 - Para T52 (guía de despacho): leyenda `CEDIBLE CON SU FACTURA` (mayúsculas)
 
@@ -117,6 +130,7 @@ CASO-2     00     0     El Documento no esta en el envio
 **Síntoma:** rechazado con observación de monto incorrecto.
 
 **Causa:** dansanti por defecto pone `<MntTotal>0</MntTotal>` en algunos casos. Forzar el valor real:
+
 ```python
 "Encabezado": {"Totales": {"MntTotal": 31294}}
 ```
@@ -144,6 +158,7 @@ A diferencia de facturas/NC/ND, las boletas T39 no llevan campo `<TpoImpresion>T
 ## El portal SII no responde teléfono ni correo
 
 La mesa de ayuda telefónica del SII rara vez contesta en horario hábil. Alternativas:
+
 - **Formulario "Contáctenos"** en `sii.cl` — SLA real de 24-72h pero responden por escrito.
 - **Foros chilenos**: r/chileIT en Reddit, foros de OpenFactura, dansanti GitLab issues.
 - **WhatsApp comunidad técnica** — algunos integradores tienen grupos donde se resuelve rápido.

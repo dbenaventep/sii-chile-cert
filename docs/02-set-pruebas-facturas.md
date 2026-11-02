@@ -80,11 +80,24 @@ Llevan **dos referencias**: la al SET (línea 1) y la al documento original que 
 ```
 
 `CodRef`:
+
 - `1` anula documento de referencia
 - `2` corrige texto del documento de referencia
 - `3` corrige montos
 
-**`CodRef=2` REQUIRE** que el RazonRef contenga literal "Dice:" y "debe decir:" (la librería dansanti valida esto).
+### Mito sobre `RazonRef` y «Donde dice: debe decir:»
+
+Según nuestra investigación, existen diferentes implementaciones sobre "Dice:" y "debe decir:" y aparentemente SII no valida esta frase. La librería dansanti usada en algunos proyectos puede validar el texto de `RazonRef` con más restricciones que el SII.
+
+Según [la respuesta actualizada el octubre de 2022 del SII](https://www.sii.cl/preguntas_frecuentes/factura_electronica/001_003_3731.htm), la frase literal «Dice: debe decir:» debería estar presente en el detalle del DTE.
+
+En nuestra experiencia con `CodRef=2`: El SII aceptó la nota sin exigir que `RazonRef` tuviera literalmente la expresión «Dice: debe decir:». La explicación se incluyó en el detalle mediante `DscItem`:
+
+```
+<DscItem>Donde dice: VENTA AL POR MENOR DE ALIMENTOS EN COMER debe decir: ACTIVIDADES DE RESTAURANTES</DscItem>
+```
+
+Esta ubicación permitió aprovechar el espacio disponible en `DscItem`, cuyo límite utilizado fue de 1.000 caracteres.
 
 ## Casos típicos por set
 
@@ -92,16 +105,16 @@ Llevan **dos referencias**: la al SET (línea 1) y la al documento original que 
 
 Típicamente 8 casos:
 
-| # | Caso | Tipo DTE | Notas |
-|---|---|---|---|
-| 1 | Factura simple con 2 ítems afectos | T33 | — |
-| 2 | Factura con descuento por línea | T33 | `DescuentoPct` en cada línea |
-| 3 | Factura mixta (afecto + exento) | T33 | `IndExe=1` en línea exenta |
-| 4 | Factura con descuento global | T33 | `<DscRcgGlobal>` separado |
-| 5 | NC corrige giro de factura caso 1 | T61 | 1 línea, `CdgItem.VlrCodigo="NO_PRODUCT"`, monto=0 |
-| 6 | NC devolución mercaderías | T61 | replica items de factura original con cantidades devueltas |
-| 7 | NC anula factura caso 3 | T61 | replica items completos de la factura |
-| 8 | ND anula NC caso 5 | T56 | replica items de la factura original |
+| #   | Caso                               | Tipo DTE | Notas                                                      |
+| --- | ---------------------------------- | -------- | ---------------------------------------------------------- |
+| 1   | Factura simple con 2 ítems afectos | T33      | —                                                          |
+| 2   | Factura con descuento por línea    | T33      | `DescuentoPct` en cada línea                               |
+| 3   | Factura mixta (afecto + exento)    | T33      | `IndExe=1` en línea exenta                                 |
+| 4   | Factura con descuento global       | T33      | `<DscRcgGlobal>` separado                                  |
+| 5   | NC corrige giro de factura caso 1  | T61      | 1 línea, monto=0                                           |
+| 6   | NC devolución mercaderías          | T61      | replica items de factura original con cantidades devueltas |
+| 7   | NC anula factura caso 3            | T61      | replica items completos de la factura                      |
+| 8   | ND anula NC caso 5                 | T56      | replica items de la factura original                       |
 
 ### Set Guías (T52)
 
@@ -116,6 +129,7 @@ Igual estructura que set básico, pero los ítems van con `IndExe=1`, sin IVA.
 ### Set Compra (T46)
 
 Factura de compra electrónica con retención total de IVA. Caso clásico:
+
 - `<OtrosImp><CodImp>15</CodImp>` (cambio sujeto IVA)
 - `<MntTotal>` = Neto (no Neto+IVA, porque hay retención total)
 - En libro de compras del mes: `<TpoImp>1</TpoImp>`
@@ -131,7 +145,6 @@ Factura de compra electrónica con retención total de IVA. Caso clásico:
 
 - ❌ Usar `<TpoDocRef>SET</TpoDocRef>` con `<RazonRef>CASO-1</RazonRef>` (sin ID del set) — rechazo silencioso.
 - ❌ Olvidar la segunda referencia en NC/ND al documento original.
-- ❌ NC `CodRef=2` sin "Dice:" y "debe decir:" en RazonRef.
 - ❌ Mandar el set por pangal REST (eso es solo para boletas en prod).
 
 Para más errores ver [`gotchas.md`](gotchas.md).
