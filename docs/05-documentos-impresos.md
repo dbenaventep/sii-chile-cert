@@ -1,6 +1,7 @@
 # 5. Documentos Impresos (PDF con timbre PDF417)
 
 Cuarta etapa: el SII te pide los PDFs impresos de:
+
 - Todos los DTE del Set de Pruebas (etapa 2)
 - Una muestra de cada tipo de DTE de la Simulación (etapa 3)
 
@@ -9,6 +10,8 @@ Para los tipos que admiten cedible (T33, T34, T46, T52), debes generar **dos PDF
 Los PDFs se suben al portal SII y se revisan manualmente (no automático). Puede tardar 24-72 horas.
 
 ## Lo que el SII exige
+
+El SII revisa la representación impresa y sus elementos electrónicos, incluidos TED, CAF y timbre. Las instrucciones concretas de revisión del portal prevalecen para cada proceso. La página oficial de esquemas XML no es por sí sola una especificación completa del diseño de PDF ni prueba la aprobación de una muestra.
 
 ### Recuadro SII (esquina superior derecha)
 
@@ -120,8 +123,12 @@ Estructura básica:
     <div id="totals_block">
       <div class="row"><span>Neto:</span><span>{{ neto | clp }}</span></div>
       <div class="row"><span>Exento:</span><span>{{ exento | clp }}</span></div>
-      <div class="row"><span>19% I.V.A.:</span><span>{{ iva | clp }}</span></div>
-      <div class="row total-final"><span>MONTO TOTAL:</span><span>{{ total | clp }}</span></div>
+      <div class="row">
+        <span>19% I.V.A.:</span><span>{{ iva | clp }}</span>
+      </div>
+      <div class="row total-final">
+        <span>MONTO TOTAL:</span><span>{{ total | clp }}</span>
+      </div>
     </div>
   </div>
 </div>
@@ -130,14 +137,28 @@ Estructura básica:
 <div class="acuse_recibo">
   <div class="acuse_titulo">ACUSE DE RECIBO</div>
   <table>
-    <tr><td>Nombre:</td><td></td><td>RUT:</td><td></td></tr>
-    <tr><td>Firma:</td><td></td><td>Fecha:</td><td></td></tr>
-    <tr><td>Recinto:</td><td colspan="3"></td></tr>
+    <tr>
+      <td>Nombre:</td>
+      <td></td>
+      <td>RUT:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Firma:</td>
+      <td></td>
+      <td>Fecha:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Recinto:</td>
+      <td colspan="3"></td>
+    </tr>
   </table>
   <div class="acuse_legal">
     El acuse de recibo que se declara en este acto, de acuerdo a lo dispuesto en
-    la letra b) del Art. 4°, y la letra c) del Art. 5° de la Ley 19.983, acredita que
-    la entrega de mercaderías o servicio(s) prestado(s) ha(n) sido recibido(s).
+    la letra b) del Art. 4°, y la letra c) del Art. 5° de la Ley 19.983,
+    acredita que la entrega de mercaderías o servicio(s) prestado(s) ha(n) sido
+    recibido(s).
   </div>
 </div>
 <div class="cedible_label">
@@ -149,29 +170,61 @@ Estructura básica:
 CSS clave:
 
 ```css
-.rojo { color: #d32f2f !important; }
-.recuadro_sii { border: 2px solid #d32f2f; padding: 5mm; }
-.unidad_sii { color: #d32f2f; text-align: center; margin-top: 2mm; }
+.rojo {
+  color: #d32f2f !important;
+}
+.recuadro_sii {
+  border: 2px solid #d32f2f;
+  padding: 5mm;
+}
+.unidad_sii {
+  color: #d32f2f;
+  text-align: center;
+  margin-top: 2mm;
+}
 
-#barcode_block { display: flex; flex-direction: column; align-items: center; }
-#imagen-svg { width: 60mm; margin: 0 auto 3mm; }
+#barcode_block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#imagen-svg {
+  width: 60mm;
+  margin: 0 auto 3mm;
+}
 
-#totals_block { width: 50%; }
-#totals_block .row { display: flex; justify-content: space-between; }
-.total-final { border-top: 1px solid #000; padding-top: 1mm; font-weight: bold; }
+#totals_block {
+  width: 50%;
+}
+#totals_block .row {
+  display: flex;
+  justify-content: space-between;
+}
+.total-final {
+  border-top: 1px solid #000;
+  padding-top: 1mm;
+  font-weight: bold;
+}
 
 .cedible_label {
-  position: fixed; bottom: 4mm; right: 6mm;
-  font-size: 9pt; color: #d32f2f;
+  position: fixed;
+  bottom: 4mm;
+  right: 6mm;
+  font-size: 9pt;
+  color: #d32f2f;
   /* sin recuadro, sin background */
 }
 
-@page { size: letter; margin: 10mm; }
+@page {
+  size: letter;
+  margin: 10mm;
+}
 ```
 
 ## Boletas T39
 
 A diferencia de facturas, las boletas:
+
 - **NO llevan cedible** (no se ceden por Ley 19.983)
 - **NO llevan acuse de recibo**
 - Solo se genera **un PDF tributario por boleta**
@@ -181,6 +234,7 @@ El resto de las reglas (PDF417, recuadro SII, totales) son idénticas.
 ## Subida al portal SII
 
 Portal SII → Certificación → "Subir Documentos Impresos". Selecciona la opción correspondiente:
+
 - "Set de Pruebas" — sube los PDFs del set (T33, T61, T56, T34, T52, T46)
 - "Simulación" — sube los PDFs de muestra
 - "Boletas" — sube las boletas

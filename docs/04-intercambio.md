@@ -1,6 +1,8 @@
 # 4. Intercambio de Información
 
-Tercera etapa: el SII te envía un XML con 2 DTEs (uno tiene tu RUT como receptor, otro NO) y tienes que responder con 3 archivos XML que demuestren que sabes procesar intercambio.
+Tercera etapa: el SII te muestra enlace para descarga de un XML generado con 2 DTEs (uno tiene tu RUT como receptor, otro NO) y tienes que responder con 3 archivos XML que demuestren que sabes procesar intercambio.
+
+El manual oficial del SII describe un procedimiento de intercambio de información mediante correo electrónico. Sin embargo, en el proceso de certificación utilizado, el intercambio se realiza directamente vía web mediante la plataforma del SII, sin necesidad de enviar los documentos por correo electrónico.
 
 ## Lo que el SII envía
 
@@ -10,6 +12,21 @@ Un único XML `EnvioDTE` con 2 facturas T33:
 - **DTE B:** `RUTRecep = OTRO_RUT` → NO te corresponde, debes rechazarlo en el intercambio.
 
 El correo del SII trae el XML adjunto (típicamente `ENVIO_DTE_<num>.xml`).
+
+### Inconsistencias en el archivo de intercambio proporcionado por el SII
+
+Se encontraron varias anomalías en los documentos de prueba:
+
+| Anomalía                | Hallazgo                                                               |
+| ----------------------- | ---------------------------------------------------------------------- |
+| Firma de `EnvioDTE`     | Firma del sobre válida                                                 |
+| Firma individual de DTE | Digest XMLDSIG no corresponde al nodo referenciado                     |
+| Redondeo monetario      | Determinados valores con fracción 0,5 o 0,6 se redondeaban hacia abajo |
+| Folio y CAF/TED         | Folio fuera del rango autorizado en el CAF/TED incluido                |
+
+Solución que permitió continuar: Aplicar excepciones controladas para esos documentos específicos de certificación, sin desactivar globalmente las validaciones tributarias.
+
+Recomendación de implementación: Identificar inequívocamente los documentos de prueba, registrar qué validaciones fueron exceptuadas y mantener el comportamiento estricto para documentos reales.
 
 ## Lo que tienes que responder
 
@@ -98,6 +115,7 @@ Wrapper `<EnvioRecibos>` con schema `EnvioRecibos_v10.xsd`. Solo para el DTE que
 ```
 
 ⚠️ **Atención**:
+
 - `RutRecibe` en la Carátula debe ser el **RUT del emisor original** (a quien le respondes), NO tu RUT.
 - `MntTotal` debe ser el valor real del DTE, NO 0.
 

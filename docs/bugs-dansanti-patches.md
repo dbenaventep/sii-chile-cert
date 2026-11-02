@@ -26,8 +26,6 @@ def Encabezado(self):
     ...
 ```
 
-**Nota:** para **boletas T39** este bug **no necesita parche** porque `<RUTProvSW>` no está en el XSD oficial de boletas. Pero para facturas T33 (desde 2026) sí es obligatorio y entonces sí hace falta descomentar.
-
 **Parche (solo si certificas facturas T33 con campos 2026):**
 
 ```python
@@ -130,6 +128,7 @@ def do_consumo_folios_send(self, sec_envio=None):
 **Archivos:** `facturacion_electronica/xsd/*.xsd`
 
 **Síntoma:** dansanti valida tu XML contra su XSD local antes de enviar. Si el XSD local es más estricto (o más laxo) que el oficial vigente del SII, tu XML puede:
+
 - **Pasar localmente y rechazar en el SII** (XSD oficial cambió)
 - **Fallar localmente y ser aceptado por el SII** (XSD local agrega restricciones inventadas)
 

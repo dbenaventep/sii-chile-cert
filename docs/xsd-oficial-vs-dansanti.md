@@ -33,6 +33,7 @@ diff /tmp/EnvioBOLETA_oficial.xsd \
 ### `EnvioBOLETA_v11.xsd` — Boletas T39 / T41
 
 **XSD oficial (sii.cl):** define en `<Referencia>` solo:
+
 ```xml
 <element name="NroLinRef">
 <element name="CodRef" minOccurs="0">  <!-- xs:string maxLength 18 -->
@@ -40,6 +41,7 @@ diff /tmp/EnvioBOLETA_oficial.xsd \
 ```
 
 **XSD de dansanti** agrega elementos que NO están en el oficial:
+
 - `<TpoDocRef>` (string maxLength 3)
 - `<FolioRef>` (string maxLength 18)
 - `<FchRef>` (date)
@@ -48,7 +50,7 @@ diff /tmp/EnvioBOLETA_oficial.xsd \
 
 **Consecuencia:** dansanti permite (y a veces fuerza) que la `<Referencia>` lleve estos campos en boletas. **El SII los rechaza al recibir el envío** con error `HED-3-211 Dato invalido`.
 
-**Otro hallazgo:** el XSD oficial **NO tiene** elemento `<RUTProvSW>` en boletas (sí en facturas T33 desde 2026). dansanti tiene código (en docstring, ver bug 1 en [`bugs-dansanti-patches.md`](bugs-dansanti-patches.md)) que lo agregaría — bueno que esté desactivado, mantenerlo así para boletas.
+**Otro hallazgo:** el XSD oficial **NO tiene** elemento `<RUTProvSW>` en DTE (sí en boletas desde 2026). dansanti tiene código (en docstring, ver bug 1 en [`bugs-dansanti-patches.md`](bugs-dansanti-patches.md)) que lo agregaría — bueno que esté desactivado, mantenerlo así para boletas.
 
 ### Diferencias `ConsumoFolio_v10.xsd` — RCOF / RVD
 
